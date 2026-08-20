@@ -18,34 +18,34 @@ document.addEventListener('DOMContentLoaded', async () => {
             let mediaHTML = '';
             let cardClass = 'project-card'; 
 
-            // Detectar si es video vertical u horizontal
-            const isVertical = project.vertical || false;
+            // Determinar orientación del video
+            const orientation = project.orientation || 'auto';
 
             // Lógica para Video con imagen poster vs Solo Imagen
             if (project.videoLocal) {
-                // Crear wrapper para el video con aspecto correcto
-                const wrapperClass = isVertical ? 'video-wrapper vertical' : 'video-wrapper';
+                // Crear clase basada en orientación
+                let videoClass = 'horizontal';
+                if (orientation === 'vertical') {
+                    videoClass = 'vertical';
+                    cardClass += ' tall-card';
+                } else if (orientation === 'auto') {
+                    videoClass = 'auto-detect';
+                }
                 
                 mediaHTML = `
-                    <div class="${wrapperClass}">
+                    <div class="video-wrapper ${videoClass}" data-video-id="${project.id}">
                         <video 
                             controls 
                             poster="${project.imagen}" 
                             preload="metadata"
                             playsinline
                             webkit-playsinline
-                            x5-video-player-type="h5"
-                            x5-video-player-fullscreen="true"
                             data-poster="${project.imagen}"
                             style="background: #000;">
                             <source src="${project.videoLocal}" type="video/mp4">
-                            <p>Tu navegador no soporta videos HTML5. <a href="${project.videoLocal}" download>Descargar video</a></p>
+                            <p>Tu navegador no soporta videos HTML5.</p>
                         </video>
                     </div>`;
-                
-                if (isVertical) {
-                    cardClass += ' tall-card';
-                }
             } else {
                 // Si no hay video, mostrar solo la imagen
                 mediaHTML = `<div class="card-image" style="background-image: url('${project.imagen}')"></div>`;
@@ -54,11 +54,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             // Crear elemento artículo
             const card = document.createElement('article');
             card.className = `${cardClass} filter-item`;
-            
-            // Asignar categoría para el filtrado
             card.setAttribute('data-category', project.categoria || 'all'); 
-            
-            // AGREGAR ANIMACIÓN AOS CON RETRASO EN CASCADA
             card.setAttribute('data-aos', 'fade-up');
             card.setAttribute('data-aos-delay', (index * 100).toString());
 
@@ -74,32 +70,53 @@ document.addEventListener('DOMContentLoaded', async () => {
                 </div>
             `;
             
-            // EVENTO CLICK PARA ABRIR MODAL (solo si NO es un video)
-            // Si es video, permitir que el usuario interactúe directamente con él
+            // Detectar orientación automática del video
+            if (orientation === 'auto' && project.videoLocal) {
+                const videoWrapper = card.querySelector('.video-wrapper');
+                const videoElement = card.querySelector('video');
+                
+                // Cuando el video cargue sus metadatos, detectamos su orientación
+                videoElement.addEventListener('loadedmetadata', () => {
+                    const videoWidth = videoElement.videoWidth;
+                    const videoHeight = videoElement.videoHeight;
+                    const aspectRatio = videoWidth / videoHeight;
+                    
+                    // Si es más alto que ancho → vertical
+                    if (aspectRatio < 1) {
+                        videoWrapper.classList.remove('auto-detect');
+                        videoWrapper.classList.add('vertical');
+                        card.classList.add('tall-card');
+                    } else {
+                        videoWrapper.classList.remove('auto-detect');
+                        videoWrapper.classList.add('horizontal');
+                    }
+                    
+                    // Forzar recálculo del layout
+                    videoWrapper.style.display = 'flex';
+                });
+            }
+            
+            // EVENTO CLICK PARA ABRIR MODAL
             const videoElement = card.querySelector('video');
             if (videoElement) {
-                // Si hace clic en el video, no abrir modal
                 videoElement.addEventListener('click', (e) => {
                     e.stopPropagation();
                 });
             }
             
-            // Abrir modal al hacer clic en la tarjeta (pero no en el video)
             card.addEventListener('click', (e) => {
-                // Si el clic fue en el video, no abrir modal
                 if (e.target.tagName === 'VIDEO' || e.target.closest('video')) {
                     return;
                 }
                 
-                // Llenar datos del modal
                 modalTitle.textContent = project.nombre;
                 modalDesc.textContent = project.descripcion;
                 modalTech.innerHTML = project.tecnologias.map(t => `<span class="tag">${t}</span>`).join('');
                 
-                // Mostrar video o imagen en grande
                 if (project.videoLocal) {
+                    const modalOrientation = project.orientation === 'vertical' ? 'vertical' : 'horizontal';
                     modalMedia.innerHTML = `
-                        <div class="video-wrapper ${isVertical ? 'vertical' : ''}">
+                        <div class="video-wrapper ${modalOrientation}" style="max-height: 70vh;">
                             <video 
                                 controls 
                                 autoplay 
@@ -114,7 +131,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                     modalMedia.innerHTML = `<img src="${project.imagen}" alt="${project.nombre}" style="width:100%; border-radius:8px;">`;
                 }
                 
-                // Mostrar modal y bloquear scroll del body
                 modal.style.display = 'flex';
                 document.body.style.overflow = 'hidden'; 
             });
@@ -128,19 +144,15 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         filterBtns.forEach(btn => {
             btn.addEventListener('click', () => {
-                // Cambiar estado activo de botones
                 filterBtns.forEach(b => b.classList.remove('active'));
                 btn.classList.add('active');
 
                 const filterValue = btn.getAttribute('data-filter');
 
-                // Mostrar u ocultar tarjetas según categoría
                 items.forEach(item => {
                     if (filterValue === 'all' || item.getAttribute('data-category') === filterValue) {
                         item.classList.remove('hide');
                         item.style.display = 'block';
-                        
-                        // Reiniciar animación AOS al filtrar
                         item.setAttribute('data-aos', 'fade-up');
                     } else {
                         item.classList.add('hide');
@@ -153,19 +165,16 @@ document.addEventListener('DOMContentLoaded', async () => {
         // 4. LÓGICA PARA CERRAR EL MODAL
         const closeModal = () => {
             modal.style.display = 'none';
-            modalMedia.innerHTML = ''; // Limpiar video para detener reproducción
-            document.body.style.overflow = 'auto'; // Restaurar scroll
+            modalMedia.innerHTML = '';
+            document.body.style.overflow = 'auto';
         };
 
-        // Cerrar al dar clic en la X
         closeModalBtn.addEventListener('click', closeModal);
         
-        // Cerrar al dar clic fuera del contenido (en el fondo oscuro)
         modal.addEventListener('click', (e) => {
             if (e.target === modal) closeModal();
         });
 
-        // Cerrar con tecla ESC
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape' && modal.style.display === 'flex') {
                 closeModal();

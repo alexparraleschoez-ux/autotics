@@ -223,6 +223,10 @@ nav a:hover {
     display: none;
 }
 
+.project-card.tall-card {
+    grid-row: span 2; /* Ocupa más espacio en el grid para videos verticales */
+}
+
 .card-image {
     height: 180px;
     background: #1a1d2d;
@@ -246,64 +250,57 @@ nav a:hover {
 }
 
 /* =========================================
-   CARD MEDIA - VIDEOS OPTIMIZADOS
+   CARD MEDIA - VIDEOS OPTIMIZADOS SIN BORDES NEGROS
    ========================================= */
 .card-media {
     width: 100%;
-    height: 180px;
     overflow: hidden;
     border-top-left-radius: 16px;
     border-top-right-radius: 16px;
     background: #000;
     position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-/* Video horizontal estándar */
-.card-media video {
+/* Video wrapper - Contenedor adaptable */
+.video-wrapper {
+    position: relative;
     width: 100%;
-    height: 100%;
-    object-fit: cover; /* Elimina bordes negros, cubre todo el espacio */
-    display: block;
-}
-
-/* Video vertical (tall) */
-.card-media.vertical-video {
-    height: auto;
-    aspect-ratio: 9/16; /* Mantiene proporción vertical */
-    max-height: 500px;
     background: #000;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-.card-media.vertical-video video {
+/* Video horizontal (16:9) */
+.video-wrapper.horizontal {
+    aspect-ratio: 16/9;
+}
+
+.video-wrapper.horizontal video {
     width: 100%;
     height: 100%;
-    object-fit: contain; /* Muestra el video completo sin recortar */
-    background: #000;
+    object-fit: cover; /* Cubre todo el espacio sin bordes negros */
 }
 
-/* Contenedor adaptable al aspecto del video */
-.video-wrapper {
-    position: relative;
-    width: 100%;
-    height: 0;
-    padding-bottom: 56.25%; /* 16:9 aspect ratio */
-    background: #000;
-}
-
+/* Video vertical (9:16) */
 .video-wrapper.vertical {
-    padding-bottom: 177.77%; /* 9:16 aspect ratio */
+    aspect-ratio: 9/16;
+    max-height: 500px; /* Límite máximo de altura */
 }
 
-.video-wrapper video {
-    position: absolute;
-    top: 0;
-    left: 0;
+.video-wrapper.vertical video {
     width: 100%;
     height: 100%;
-    object-fit: contain; /* Muestra todo el video sin bordes negros */
+    object-fit: cover; /* Cubre todo el espacio vertical sin bordes negros */
+}
+
+/* Videos en tarjetas */
+.card-media video {
+    display: block;
+    background: #000;
 }
 
 /* =========================================
@@ -444,13 +441,17 @@ nav a:hover {
     .hero { padding-top: 120px; } /* Más espacio en móvil */
     
     /* Videos en móviles */
-    .card-media {
-        height: 200px; /* Altura fija para móviles */
+    .video-wrapper.horizontal {
+        aspect-ratio: 16/9;
     }
     
-    .card-media.vertical-video {
+    .video-wrapper.vertical {
         aspect-ratio: 9/16;
         max-height: 400px;
+    }
+    
+    .project-card.tall-card {
+        grid-row: span 1; /* En móvil, una sola fila */
     }
     
     .grid-container {
@@ -479,11 +480,12 @@ nav a:hover {
     }
     
     /* Ajuste específico para videos en móviles pequeños */
-    .card-media {
-        height: 180px;
+    .video-wrapper.horizontal {
+        aspect-ratio: 16/9;
     }
     
-    .card-media video {
-        object-fit: cover; /* Cubre todo el espacio en móviles */
+    .video-wrapper.vertical {
+        aspect-ratio: 9/16;
+        max-height: 350px;
     }
 }
