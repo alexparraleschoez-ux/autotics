@@ -401,3 +401,44 @@ nav a:hover {
     .card-media.vertical-video { height: 300px; }
     .hero { padding-top: 120px; } /* Más espacio en móvil */
 }
+
+/* =========================================
+   MEJORAS PARA POSTER DE VIDEOS
+   ========================================= */
+.card-media.vertical-video {
+    position: relative;
+    background: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.card-media.vertical-video video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/* Efecto hover en el poster del video */
+.card-media.vertical-video video::-webkit-media-controls {
+    transition: opacity 0.3s ease;
+}
+
+.card-media.vertical-video:hover video::-webkit-media-controls {
+    opacity: 1;
+}
+
+/* Asegurar que la imagen poster se vea bien centrada */
+.card-media.vertical-video video[poster] {
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+/* Estilo para cuando el video está pausado mostrando el poster */
+.card-media.vertical-video video::-webkit-media-controls-play-button {
+    background-color: rgba(0, 240, 255, 0.8);
+    border-radius: 50%;
+}

@@ -4,7 +4,7 @@
         "nombre": "Tipos de Wildcard",
         "descripcion": "Tutorial completo sobre máscaras wildcard y conversiones binarias para redes Cisco.",
         "tecnologias": ["Redes", "Cisco", "Direccionamiento", "Conectividad"],
-        "imagen": "assets/img/wildcard.jpg",
+        "imagen": "assets/img/logo_autotics.jpg",
         "videoLocal": "assets/videos/Wildcard.mp4",
         "categoria": "redes"
     },
@@ -13,7 +13,7 @@
         "nombre": "Conversiones de Red",
         "descripcion": "Aprende a realizar conversiones binarias, decimales y de subnetting paso a paso.",
         "tecnologias": ["Redes", "Binario", "Subnetting"],
-        "imagen": "assets/img/conversiones.jpg",
+        "imagen": "assets/img/logo_autotics.jpg",
         "videoLocal": "assets/videos/conversiones.mp4",
         "categoria": "redes"
     },
@@ -22,7 +22,7 @@
         "nombre": "Ajuste de Tablas",
         "descripcion": "Tutorial sobre cómo ajustar y formatear tablas dinámicas en Excel.",
         "tecnologias": ["Excel", "Tablas Dinámicas", "Tutorial"],
-        "imagen": "assets/img/ajuste_tabla.jpg",
+        "imagen": "assets/img/logo_autotics.jpg",
         "videoLocal": "assets/videos/ajuste de tabla.mp4",
         "categoria": "tutoriales"
     },
@@ -31,7 +31,7 @@
         "nombre": "Suma en Excel",
         "descripcion": "Dominio de fórmulas de suma y funciones básicas en Excel.",
         "tecnologias": ["Excel", "Fórmulas", "Tutorial"],
-        "imagen": "assets/img/suma.jpg",
+        "imagen": "assets/img/logo_autotics.jpg",
         "videoLocal": "assets/videos/suma.mp4",
         "categoria": "tutoriales"
     },
@@ -40,7 +40,7 @@
         "nombre": "Reporte de Productos",
         "descripcion": "Generación automática de reportes de inventario y productos.",
         "tecnologias": ["Excel", "Reportes", "Automatización"],
-        "imagen": "assets/img/reporte.jpg",
+        "imagen": "assets/img/logo_autotics.jpg",
         "videoLocal": "assets/videos/reporte de productos.mp4",
         "categoria": "tutoriales"
     },
@@ -49,7 +49,7 @@
         "nombre": "Automatizador Excel Pro",
         "descripcion": "Script Python que automatiza reportes financieros mensuales en Excel.",
         "tecnologias": ["Python", "Pandas", "Excel VBA", "Automatización"],
-        "imagen": "assets/img/proyecto_excel.jpg",
+        "imagen": "assets/img/logo_autotics.jpg",
         "categoria": "automatizacion"
     },
     {
@@ -57,7 +57,7 @@
         "nombre": "Dashboard TIC",
         "descripcion": "Panel de control web para métricas de infraestructura tecnológica.",
         "tecnologias": ["React", "Node.js", "MongoDB", "Web"],
-        "imagen": "assets/img/dashboard.jpg",
+        "imagen": "assets/img/logo_autotics.jpg",
         "categoria": "web"
     },
     {
@@ -65,7 +65,7 @@
         "nombre": "Sistema de Inventario",
         "descripcion": "Software de escritorio para gestión de inventario y stock en tiempo real.",
         "tecnologias": ["Python", "Tkinter", "SQLite", "Software"],
-        "imagen": "assets/img/inventario.jpg",
+        "imagen": "assets/img/logo_autotics.jpg",
         "categoria": "software"
     },
     {
@@ -73,7 +73,7 @@
         "nombre": "Bot de Telegram",
         "descripcion": "Automatización de respuestas y notificaciones mediante bot de Telegram.",
         "tecnologias": ["Python", "API Telegram", "Automatización", "Bot"],
-        "imagen": "assets/img/bot_telegram.jpg",
+        "imagen": "assets/img/logo_autotics.jpg",
         "categoria": "automatizacion"
     },
     {
@@ -81,7 +81,7 @@
         "nombre": "Web Portfolio Personal",
         "descripcion": "Sitio web personal responsive con diseño moderno y animaciones.",
         "tecnologias": ["HTML5", "CSS3", "JavaScript", "Web"],
-        "imagen": "assets/img/portfolio.jpg",
+        "imagen": "assets/img/logo_autotics.jpg",
         "categoria": "web"
     }
 ]

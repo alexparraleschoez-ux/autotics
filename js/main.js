@@ -18,8 +18,9 @@ document.addEventListener('DOMContentLoaded', async () => {
             let mediaHTML = '';
             let cardClass = 'project-card'; 
 
-            // Lógica para Video Vertical vs Imagen
+            // Lógica para Video con imagen poster vs Solo Imagen
             if (project.videoLocal) {
+                // Usar la imagen del campo "imagen" como poster del video
                 mediaHTML = `
                     <div class="card-media vertical-video">
                         <video controls poster="${project.imagen}" preload="metadata">
@@ -27,8 +28,9 @@ document.addEventListener('DOMContentLoaded', async () => {
                             Tu navegador no soporta videos.
                         </video>
                     </div>`;
-                cardClass += ' tall-card'; // Clase para hacerla más alta
+                cardClass += ' tall-card';
             } else {
+                // Si no hay video, mostrar solo la imagen
                 mediaHTML = `<div class="card-image" style="background-image: url('${project.imagen}')"></div>`;
             }
 
@@ -40,7 +42,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             card.setAttribute('data-category', project.categoria || 'all'); 
             
             // AGREGAR ANIMACIÓN AOS CON RETRASO EN CASCADA
-            // Cada tarjeta aparece 100ms después de la anterior
             card.setAttribute('data-aos', 'fade-up');
             card.setAttribute('data-aos-delay', (index * 100).toString());
 
@@ -66,7 +67,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 // Mostrar video o imagen en grande
                 if (project.videoLocal) {
                     modalMedia.innerHTML = `
-                        <video controls autoplay>
+                        <video controls autoplay poster="${project.imagen}">
                             <source src="${project.videoLocal}" type="video/mp4">
                         </video>`;
                 } else {
