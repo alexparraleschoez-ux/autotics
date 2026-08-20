@@ -210,7 +210,7 @@ nav a:hover {
     border: 1px solid rgba(255, 255, 255, 0.05);
     transition: transform 0.3s, box-shadow 0.3s;
     cursor: pointer;
-    display: block !important; /* FORZAR VISIBILIDAD */
+    display: block !important;
 }
 
 .project-card:hover {
@@ -273,13 +273,12 @@ nav a:hover {
     display: flex;
     align-items: center;
     justify-content: center;
-    display: block !important; /* FORZAR VISIBILIDAD */
+    display: block !important;
 }
 
-/* Video horizontal (16:9) */
 .video-wrapper.horizontal {
     aspect-ratio: 16/9;
-    min-height: 180px; /* Altura mínima para evitar colapso */
+    min-height: 180px;
 }
 
 .video-wrapper.horizontal video {
@@ -290,13 +289,12 @@ nav a:hover {
     display: block;
 }
 
-/* Video vertical (9:16) - CORREGIDO PARA MÓVIL */
 .video-wrapper.vertical {
     width: 100%;
     max-width: 400px;
     margin: 0 auto;
     aspect-ratio: 9/16;
-    min-height: 300px; /* Altura mínima para evitar colapso en móvil */
+    min-height: 300px;
     display: block !important;
 }
 
@@ -491,23 +489,20 @@ nav a:hover {
     .brand-name { font-size: 1.5rem; }
     .hero { padding-top: 120px; }
     
-    /* Grid en móvil - UNA COLUMNA */
     .grid-container {
         grid-template-columns: 1fr;
         gap: 20px;
     }
     
-    /* Videos horizontales en móvil */
     .video-wrapper.horizontal {
         aspect-ratio: 16/9;
         min-height: 200px;
     }
     
-    /* Videos verticales en móvil - CORREGIDO */
     .video-wrapper.vertical {
         max-width: 100%;
         aspect-ratio: 9/16;
-        min-height: 400px; /* Altura mínima garantizada */
+        min-height: 400px;
         display: block !important;
     }
     
@@ -516,7 +511,6 @@ nav a:hover {
         display: block;
     }
     
-    /* Tarjetas verticales en móvil - UNA SOLA FILA */
     .project-card.tall-card {
         grid-row: span 1;
     }
