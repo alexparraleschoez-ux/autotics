@@ -6,7 +6,8 @@
         "tecnologias": ["Redes", "Cisco", "Direccionamiento", "Conectividad"],
         "imagen": "assets/img/logo_autotics.jpg",
         "videoLocal": "assets/videos/Wildcard.mp4",
-        "categoria": "redes"
+        "categoria": "redes",
+        "vertical": false
     },
     {
         "id": 2,
@@ -15,7 +16,8 @@
         "tecnologias": ["Redes", "Binario", "Subnetting"],
         "imagen": "assets/img/logo_autotics.jpg",
         "videoLocal": "assets/videos/conversiones.mp4",
-        "categoria": "redes"
+        "categoria": "redes",
+        "vertical": false
     },
     {
         "id": 3,
@@ -24,7 +26,8 @@
         "tecnologias": ["Excel", "Tablas Dinámicas", "Tutorial"],
         "imagen": "assets/img/logo_autotics.jpg",
         "videoLocal": "assets/videos/ajuste de tabla.mp4",
-        "categoria": "tutoriales"
+        "categoria": "tutoriales",
+        "vertical": false
     },
     {
         "id": 4,
@@ -33,7 +36,8 @@
         "tecnologias": ["Excel", "Fórmulas", "Tutorial"],
         "imagen": "assets/img/logo_autotics.jpg",
         "videoLocal": "assets/videos/suma.mp4",
-        "categoria": "tutoriales"
+        "categoria": "tutoriales",
+        "vertical": false
     },
     {
         "id": 5,
@@ -42,7 +46,8 @@
         "tecnologias": ["Excel", "Reportes", "Automatización"],
         "imagen": "assets/img/logo_autotics.jpg",
         "videoLocal": "assets/videos/reporte de productos.mp4",
-        "categoria": "tutoriales"
+        "categoria": "tutoriales",
+        "vertical": false
     },
     {
         "id": 6,
@@ -50,7 +55,8 @@
         "descripcion": "Script Python que automatiza reportes financieros mensuales en Excel.",
         "tecnologias": ["Python", "Pandas", "Excel VBA", "Automatización"],
         "imagen": "assets/img/logo_autotics.jpg",
-        "categoria": "automatizacion"
+        "categoria": "automatizacion",
+        "vertical": false
     },
     {
         "id": 7,
@@ -58,7 +64,8 @@
         "descripcion": "Panel de control web para métricas de infraestructura tecnológica.",
         "tecnologias": ["React", "Node.js", "MongoDB", "Web"],
         "imagen": "assets/img/logo_autotics.jpg",
-        "categoria": "web"
+        "categoria": "web",
+        "vertical": false
     },
     {
         "id": 8,
@@ -66,7 +73,8 @@
         "descripcion": "Software de escritorio para gestión de inventario y stock en tiempo real.",
         "tecnologias": ["Python", "Tkinter", "SQLite", "Software"],
         "imagen": "assets/img/logo_autotics.jpg",
-        "categoria": "software"
+        "categoria": "software",
+        "vertical": false
     },
     {
         "id": 9,
@@ -74,7 +82,8 @@
         "descripcion": "Automatización de respuestas y notificaciones mediante bot de Telegram.",
         "tecnologias": ["Python", "API Telegram", "Automatización", "Bot"],
         "imagen": "assets/img/logo_autotics.jpg",
-        "categoria": "automatizacion"
+        "categoria": "automatizacion",
+        "vertical": false
     },
     {
         "id": 10,
@@ -82,6 +91,7 @@
         "descripcion": "Sitio web personal responsive con diseño moderno y animaciones.",
         "tecnologias": ["HTML5", "CSS3", "JavaScript", "Web"],
         "imagen": "assets/img/logo_autotics.jpg",
-        "categoria": "web"
+        "categoria": "web",
+        "vertical": false
     }
 ]

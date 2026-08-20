@@ -18,17 +18,34 @@ document.addEventListener('DOMContentLoaded', async () => {
             let mediaHTML = '';
             let cardClass = 'project-card'; 
 
+            // Detectar si es video vertical u horizontal
+            const isVertical = project.vertical || false;
+
             // Lógica para Video con imagen poster vs Solo Imagen
             if (project.videoLocal) {
-                // Usar la imagen del campo "imagen" como poster del video
+                // Crear wrapper para el video con aspecto correcto
+                const wrapperClass = isVertical ? 'video-wrapper vertical' : 'video-wrapper';
+                
                 mediaHTML = `
-                    <div class="card-media vertical-video">
-                        <video controls poster="${project.imagen}" preload="metadata">
+                    <div class="${wrapperClass}">
+                        <video 
+                            controls 
+                            poster="${project.imagen}" 
+                            preload="metadata"
+                            playsinline
+                            webkit-playsinline
+                            x5-video-player-type="h5"
+                            x5-video-player-fullscreen="true"
+                            data-poster="${project.imagen}"
+                            style="background: #000;">
                             <source src="${project.videoLocal}" type="video/mp4">
-                            Tu navegador no soporta videos.
+                            <p>Tu navegador no soporta videos HTML5. <a href="${project.videoLocal}" download>Descargar video</a></p>
                         </video>
                     </div>`;
-                cardClass += ' tall-card';
+                
+                if (isVertical) {
+                    cardClass += ' tall-card';
+                }
             } else {
                 // Si no hay video, mostrar solo la imagen
                 mediaHTML = `<div class="card-image" style="background-image: url('${project.imagen}')"></div>`;
@@ -57,8 +74,23 @@ document.addEventListener('DOMContentLoaded', async () => {
                 </div>
             `;
             
-            // EVENTO CLICK PARA ABRIR MODAL
-            card.addEventListener('click', () => {
+            // EVENTO CLICK PARA ABRIR MODAL (solo si NO es un video)
+            // Si es video, permitir que el usuario interactúe directamente con él
+            const videoElement = card.querySelector('video');
+            if (videoElement) {
+                // Si hace clic en el video, no abrir modal
+                videoElement.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                });
+            }
+            
+            // Abrir modal al hacer clic en la tarjeta (pero no en el video)
+            card.addEventListener('click', (e) => {
+                // Si el clic fue en el video, no abrir modal
+                if (e.target.tagName === 'VIDEO' || e.target.closest('video')) {
+                    return;
+                }
+                
                 // Llenar datos del modal
                 modalTitle.textContent = project.nombre;
                 modalDesc.textContent = project.descripcion;
@@ -67,9 +99,17 @@ document.addEventListener('DOMContentLoaded', async () => {
                 // Mostrar video o imagen en grande
                 if (project.videoLocal) {
                     modalMedia.innerHTML = `
-                        <video controls autoplay poster="${project.imagen}">
-                            <source src="${project.videoLocal}" type="video/mp4">
-                        </video>`;
+                        <div class="video-wrapper ${isVertical ? 'vertical' : ''}">
+                            <video 
+                                controls 
+                                autoplay 
+                                poster="${project.imagen}"
+                                playsinline
+                                webkit-playsinline
+                                style="background: #000;">
+                                <source src="${project.videoLocal}" type="video/mp4">
+                            </video>
+                        </div>`;
                 } else {
                     modalMedia.innerHTML = `<img src="${project.imagen}" alt="${project.nombre}" style="width:100%; border-radius:8px;">`;
                 }

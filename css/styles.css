@@ -104,7 +104,7 @@ nav a:hover {
 .hero-video-container video {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: cover; /* Cubre toda el área sin bordes negros */
 }
 
 .hero-overlay {
@@ -245,6 +245,9 @@ nav a:hover {
     border: 1px solid rgba(0, 240, 255, 0.2);
 }
 
+/* =========================================
+   CARD MEDIA - VIDEOS OPTIMIZADOS
+   ========================================= */
 .card-media {
     width: 100%;
     height: 180px;
@@ -252,17 +255,22 @@ nav a:hover {
     border-top-left-radius: 16px;
     border-top-right-radius: 16px;
     background: #000;
+    position: relative;
 }
 
+/* Video horizontal estándar */
 .card-media video {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: cover; /* Elimina bordes negros, cubre todo el espacio */
     display: block;
 }
 
+/* Video vertical (tall) */
 .card-media.vertical-video {
-    height: 400px;
+    height: auto;
+    aspect-ratio: 9/16; /* Mantiene proporción vertical */
+    max-height: 500px;
     background: #000;
     display: flex;
     align-items: center;
@@ -270,10 +278,32 @@ nav a:hover {
 }
 
 .card-media.vertical-video video {
+    width: 100%;
     height: 100%;
-    width: auto;
-    max-width: 100%;
-    object-fit: contain;
+    object-fit: contain; /* Muestra el video completo sin recortar */
+    background: #000;
+}
+
+/* Contenedor adaptable al aspecto del video */
+.video-wrapper {
+    position: relative;
+    width: 100%;
+    height: 0;
+    padding-bottom: 56.25%; /* 16:9 aspect ratio */
+    background: #000;
+}
+
+.video-wrapper.vertical {
+    padding-bottom: 177.77%; /* 9:16 aspect ratio */
+}
+
+.video-wrapper video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain; /* Muestra todo el video sin bordes negros */
 }
 
 /* =========================================
@@ -342,7 +372,7 @@ nav a:hover {
     display: none;
     position: fixed;
     top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(0, 0, 0, 0.9);
+    background: rgba(0, 0, 0, 0.95);
     z-index: 2000;
     justify-content: center;
     align-items: center;
@@ -353,8 +383,10 @@ nav a:hover {
 .modal-content {
     background: var(--bg-card);
     border-radius: 16px;
-    max-width: 800px;
+    max-width: 900px;
     width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
     padding: 40px;
     position: relative;
     border: 1px solid var(--primary-cyan);
@@ -385,11 +417,22 @@ nav a:hover {
     overflow: hidden;
     background: #000;
 }
-#modal-media img { width: 100%; height: auto; display: block; }
-#modal-media video { width: 100%; max-height: 500px; object-fit: contain; }
+
+#modal-media img { 
+    width: 100%; 
+    height: auto; 
+    display: block; 
+}
+
+#modal-media video { 
+    width: 100%; 
+    max-height: 60vh;
+    object-fit: contain; /* Muestra todo el video sin recortar */
+    background: #000;
+}
 
 /* =========================================
-   RESPONSIVE
+   RESPONSIVE - OPTIMIZADO PARA MÓVILES
    ========================================= */
 @media (max-width: 768px) {
     .hero h1 { font-size: 2.5rem; }
@@ -398,47 +441,49 @@ nav a:hover {
     nav a { margin: 0 10px; }
     .logo-img { height: 70px; }
     .brand-name { font-size: 1.5rem; }
-    .card-media.vertical-video { height: 300px; }
     .hero { padding-top: 120px; } /* Más espacio en móvil */
+    
+    /* Videos en móviles */
+    .card-media {
+        height: 200px; /* Altura fija para móviles */
+    }
+    
+    .card-media.vertical-video {
+        aspect-ratio: 9/16;
+        max-height: 400px;
+    }
+    
+    .grid-container {
+        grid-template-columns: 1fr; /* Una columna en móvil */
+    }
+    
+    .modal-content {
+        padding: 20px;
+        max-height: 95vh;
+    }
+    
+    #modal-media video {
+        max-height: 50vh;
+    }
 }
 
-/* =========================================
-   MEJORAS PARA POSTER DE VIDEOS
-   ========================================= */
-.card-media.vertical-video {
-    position: relative;
-    background: #000;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-}
-
-.card-media.vertical-video video {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-}
-
-/* Efecto hover en el poster del video */
-.card-media.vertical-video video::-webkit-media-controls {
-    transition: opacity 0.3s ease;
-}
-
-.card-media.vertical-video:hover video::-webkit-media-controls {
-    opacity: 1;
-}
-
-/* Asegurar que la imagen poster se vea bien centrada */
-.card-media.vertical-video video[poster] {
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-}
-
-/* Estilo para cuando el video está pausado mostrando el poster */
-.card-media.vertical-video video::-webkit-media-controls-play-button {
-    background-color: rgba(0, 240, 255, 0.8);
-    border-radius: 50%;
+@media (max-width: 480px) {
+    .hero h1 { font-size: 2rem; }
+    .filter-menu {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .filter-btn {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+    
+    /* Ajuste específico para videos en móviles pequeños */
+    .card-media {
+        height: 180px;
+    }
+    
+    .card-media video {
+        object-fit: cover; /* Cubre todo el espacio en móviles */
+    }
 }
