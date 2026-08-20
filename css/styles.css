@@ -199,8 +199,8 @@ nav a:hover {
 
 .grid-container {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 30px;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
 }
 
 .project-card {
@@ -210,6 +210,7 @@ nav a:hover {
     border: 1px solid rgba(255, 255, 255, 0.05);
     transition: transform 0.3s, box-shadow 0.3s;
     cursor: pointer;
+    display: block !important; /* FORZAR VISIBILIDAD */
 }
 
 .project-card:hover {
@@ -219,7 +220,7 @@ nav a:hover {
 }
 
 .project-card.hide {
-    display: none;
+    display: none !important;
 }
 
 .project-card.tall-card {
@@ -249,7 +250,7 @@ nav a:hover {
 }
 
 /* =========================================
-   CARD MEDIA - VIDEOS CON LOGO DE RESPALDO
+   CARD MEDIA - VIDEOS (SOLUCIÓN MÓVIL)
    ========================================= */
 .card-media {
     width: 100%;
@@ -258,13 +259,13 @@ nav a:hover {
     border-top-right-radius: 16px;
     background: #000;
     position: relative;
+    display: block !important;
 }
 
 .video-wrapper {
     position: relative;
     width: 100%;
     background-color: #000;
-    /* LOGO DE RESPALDO: Se muestra si el video no carga en móviles */
     background-image: url('../img/logo_autotics.jpg');
     background-size: contain;
     background-position: center;
@@ -272,10 +273,13 @@ nav a:hover {
     display: flex;
     align-items: center;
     justify-content: center;
+    display: block !important; /* FORZAR VISIBILIDAD */
 }
 
+/* Video horizontal (16:9) */
 .video-wrapper.horizontal {
     aspect-ratio: 16/9;
+    min-height: 180px; /* Altura mínima para evitar colapso */
 }
 
 .video-wrapper.horizontal video {
@@ -283,13 +287,17 @@ nav a:hover {
     height: 100%;
     object-fit: cover;
     background: transparent;
+    display: block;
 }
 
+/* Video vertical (9:16) - CORREGIDO PARA MÓVIL */
 .video-wrapper.vertical {
     width: 100%;
     max-width: 400px;
     margin: 0 auto;
     aspect-ratio: 9/16;
+    min-height: 300px; /* Altura mínima para evitar colapso en móvil */
+    display: block !important;
 }
 
 .video-wrapper.vertical video {
@@ -297,6 +305,7 @@ nav a:hover {
     height: 100%;
     object-fit: contain;
     background: transparent;
+    display: block;
 }
 
 /* =========================================
@@ -386,12 +395,10 @@ nav a:hover {
     animation: modalPop 0.3s ease;
 }
 
-/* Modal para video HORIZONTAL */
 .modal-content.modal-horizontal {
     max-width: 900px;
 }
 
-/* Modal para video VERTICAL */
 .modal-content.modal-vertical {
     max-width: 450px;
 }
@@ -430,7 +437,6 @@ nav a:hover {
     display: block; 
 }
 
-/* Video en modal */
 #modal-media .video-wrapper {
     width: 100%;
     display: flex;
@@ -474,7 +480,7 @@ nav a:hover {
 }
 
 /* =========================================
-   RESPONSIVE - OPTIMIZADO PARA MÓVILES
+   RESPONSIVE - CORREGIDO PARA MÓVILES
    ========================================= */
 @media (max-width: 768px) {
     .hero h1 { font-size: 2.5rem; }
@@ -485,26 +491,34 @@ nav a:hover {
     .brand-name { font-size: 1.5rem; }
     .hero { padding-top: 120px; }
     
-    .video-wrapper.horizontal {
-        aspect-ratio: 16/9;
+    /* Grid en móvil - UNA COLUMNA */
+    .grid-container {
+        grid-template-columns: 1fr;
+        gap: 20px;
     }
     
+    /* Videos horizontales en móvil */
+    .video-wrapper.horizontal {
+        aspect-ratio: 16/9;
+        min-height: 200px;
+    }
+    
+    /* Videos verticales en móvil - CORREGIDO */
     .video-wrapper.vertical {
         max-width: 100%;
         aspect-ratio: 9/16;
-        max-height: 600px;
+        min-height: 400px; /* Altura mínima garantizada */
+        display: block !important;
     }
     
     .video-wrapper.vertical video {
         object-fit: contain;
+        display: block;
     }
     
+    /* Tarjetas verticales en móvil - UNA SOLA FILA */
     .project-card.tall-card {
         grid-row: span 1;
-    }
-    
-    .grid-container {
-        grid-template-columns: 1fr;
     }
     
     .modal-content {
@@ -538,11 +552,13 @@ nav a:hover {
     
     .video-wrapper.horizontal {
         aspect-ratio: 16/9;
+        min-height: 180px;
     }
     
     .video-wrapper.vertical {
         max-width: 100%;
         aspect-ratio: 9/16;
-        max-height: 500px;
+        min-height: 350px;
+        display: block !important;
     }
 }
