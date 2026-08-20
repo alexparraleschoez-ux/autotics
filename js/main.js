@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         const grid = document.getElementById('projects-grid');
         
         const modal = document.getElementById('project-modal');
+        const modalContent = modal.querySelector('.modal-content');
         const modalMedia = document.getElementById('modal-media');
         const modalTitle = document.getElementById('modal-title');
         const modalDesc = document.getElementById('modal-desc');
@@ -15,12 +16,11 @@ document.addEventListener('DOMContentLoaded', async () => {
             let mediaHTML = '';
             let cardClass = 'project-card'; 
 
-            const orientation = project.orientation || 'auto';
+            const orientation = project.orientation || 'horizontal';
 
             if (project.videoLocal) {
-                let videoClass = 'horizontal';
+                let videoClass = orientation === 'vertical' ? 'vertical' : 'horizontal';
                 if (orientation === 'vertical') {
-                    videoClass = 'vertical';
                     cardClass += ' tall-card';
                 }
                 
@@ -81,10 +81,17 @@ document.addEventListener('DOMContentLoaded', async () => {
                 modalDesc.textContent = project.descripcion;
                 modalTech.innerHTML = project.tecnologias.map(t => `<span class="tag">${t}</span>`).join('');
                 
+                // Limpiar clases anteriores del modal
+                modalContent.classList.remove('modal-horizontal', 'modal-vertical');
+                
                 if (project.videoLocal) {
                     const modalOrientation = project.orientation === 'vertical' ? 'vertical' : 'horizontal';
+                    
+                    // Agregar clase al modal según orientación
+                    modalContent.classList.add(`modal-${modalOrientation}`);
+                    
                     modalMedia.innerHTML = `
-                        <div class="video-wrapper ${modalOrientation}" style="max-height: 70vh;">
+                        <div class="video-wrapper ${modalOrientation}">
                             <video 
                                 controls 
                                 autoplay 
@@ -97,6 +104,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                             </video>
                         </div>`;
                 } else {
+                    modalContent.classList.add('modal-horizontal');
                     modalMedia.innerHTML = `<img src="${project.imagen}" alt="${project.nombre}" style="width:100%; border-radius:8px;">`;
                 }
                 
@@ -133,6 +141,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         const closeModal = () => {
             modal.style.display = 'none';
             modalMedia.innerHTML = '';
+            modalContent.classList.remove('modal-horizontal', 'modal-vertical');
             document.body.style.overflow = 'auto';
         };
 
