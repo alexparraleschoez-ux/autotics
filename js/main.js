@@ -29,13 +29,13 @@ document.addEventListener('DOMContentLoaded', async () => {
                         <video 
                             controls 
                             poster="${project.imagen}" 
-                            preload="metadata"
+                            preload="none"
                             playsinline
                             webkit-playsinline
                             x5-video-player-type="h5"
                             x5-video-player-fullscreen="true"
                             x-webkit-airplay="allow"
-                            style="background: #000; width: 100%; height: 100%;">
+                            style="background: transparent; width: 100%; height: 100%;">
                             <source src="${project.videoLocal}" type="video/mp4; codecs=&quot;avc1.42E01E, mp4a.40.2&quot;">
                             <p>Tu navegador no soporta videos HTML5. <a href="${project.videoLocal}" download style="color: var(--primary-cyan);">Descargar video</a></p>
                         </video>
@@ -70,6 +70,11 @@ document.addEventListener('DOMContentLoaded', async () => {
                 videoElement.addEventListener('play', () => {
                     videoElement.style.display = 'block';
                 });
+                
+                // Manejo de errores de video
+                videoElement.addEventListener('error', () => {
+                    console.warn('Error al cargar video:', project.videoLocal);
+                });
             }
             
             card.addEventListener('click', (e) => {
@@ -96,10 +101,11 @@ document.addEventListener('DOMContentLoaded', async () => {
                                 controls 
                                 autoplay 
                                 poster="${project.imagen}"
+                                preload="none"
                                 playsinline
                                 webkit-playsinline
                                 x5-video-player-type="h5"
-                                style="background: #000; width: 100%; height: 100%;">
+                                style="background: transparent; width: 100%; height: 100%;">
                                 <source src="${project.videoLocal}" type="video/mp4; codecs=&quot;avc1.42E01E, mp4a.40.2&quot;">
                             </video>
                         </div>`;
