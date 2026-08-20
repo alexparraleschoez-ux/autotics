@@ -1,9 +1,40 @@
+// Detectar si es móvil
+const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+
 document.addEventListener('DOMContentLoaded', async () => {
+    console.log('DOM cargado, iniciando...');
+    
     try {
-        const response = await fetch('data/projects.json');
-        const projects = await response.json();
         const grid = document.getElementById('projects-grid');
-        
+        if (!grid) {
+            console.error('No se encontró el elemento #projects-grid');
+            return;
+        }
+
+        // Cargar proyectos desde JSON
+        let projects = [];
+        try {
+            const response = await fetch('data/projects.json');
+            if (!response.ok) throw new Error(`HTTP ${response.status}`);
+            projects = await response.json();
+            console.log('Proyectos cargados:', projects.length);
+        } catch (error) {
+            console.error('Error cargando projects.json:', error);
+            // Fallback: proyectos hardcodeados
+            projects = [
+                {
+                    id: 1,
+                    nombre: "Tipos de Wildcard",
+                    descripcion: "Tutorial completo sobre máscaras wildcard y conversiones binarias para redes Cisco.",
+                    tecnologias: ["Redes", "Cisco", "Direccionamiento", "Conectividad"],
+                    imagen: "assets/img/logo_autotics.jpg",
+                    videoLocal: "assets/videos/Wildcard.mp4",
+                    categoria: "redes",
+                    orientation: "vertical"
+                }
+            ];
+        }
+
         const modal = document.getElementById('project-modal');
         const modalContent = modal.querySelector('.modal-content');
         const modalMedia = document.getElementById('modal-media');
@@ -12,9 +43,12 @@ document.addEventListener('DOMContentLoaded', async () => {
         const modalTech = document.getElementById('modal-tech');
         const closeModalBtn = document.querySelector('.close-modal');
 
+        // Generar tarjetas
         projects.forEach((project, index) => {
+            console.log('Generando tarjeta:', project.nombre);
+            
             let mediaHTML = '';
-            let cardClass = 'project-card'; 
+            let cardClass = 'project-card';
 
             const orientation = project.orientation || 'horizontal';
 
@@ -24,20 +58,25 @@ document.addEventListener('DOMContentLoaded', async () => {
                     cardClass += ' tall-card';
                 }
                 
+                // Para móviles, usar poster visible y preload="none"
+                const preloadAttr = isMobile ? 'none' : 'metadata';
+                
                 mediaHTML = `
                     <div class="video-wrapper ${videoClass}">
                         <video 
                             controls 
                             poster="${project.imagen}" 
-                            preload="none"
+                            preload="${preloadAttr}"
                             playsinline
                             webkit-playsinline
                             x5-video-player-type="h5"
                             x5-video-player-fullscreen="true"
-                            x-webkit-airplay="allow"
-                            style="background: transparent; width: 100%; height: 100%;">
-                            <source src="${project.videoLocal}" type="video/mp4; codecs=&quot;avc1.42E01E, mp4a.40.2&quot;">
-                            <p>Tu navegador no soporta videos HTML5. <a href="${project.videoLocal}" download style="color: var(--primary-cyan);">Descargar video</a></p>
+                            style="background: #000; width: 100%; height: 100%;">
+                            <source src="${project.videoLocal}" type="video/mp4">
+                            <p style="color: white; text-align: center; padding: 20px;">
+                                Tu navegador no soporta videos HTML5. 
+                                <a href="${project.videoLocal}" download style="color: #00f0ff;">Descargar video</a>
+                            </p>
                         </video>
                     </div>`;
             } else {
@@ -61,38 +100,48 @@ document.addEventListener('DOMContentLoaded', async () => {
                 </div>
             `;
             
+            // Evento click en video
             const videoElement = card.querySelector('video');
             if (videoElement) {
                 videoElement.addEventListener('click', (e) => {
                     e.stopPropagation();
-                });
-                
-                videoElement.addEventListener('play', () => {
-                    videoElement.style.display = 'block';
+                    console.log('Click en video:', project.nombre);
                 });
                 
                 // Manejo de errores de video
-                videoElement.addEventListener('error', () => {
-                    console.warn('Error al cargar video:', project.videoLocal);
+                videoElement.addEventListener('error', (e) => {
+                    console.error('Error al cargar video:', project.videoLocal, e);
+                    videoElement.parentElement.innerHTML = `
+                        <div style="background: #121420; padding: 20px; text-align: center; color: white; height: 100%; display: flex; align-items: center; justify-content: center; flex-direction: column;">
+                            <p style="font-size: 2rem; margin-bottom: 10px;">️</p>
+                            <p>Video no disponible</p>
+                            <a href="${project.videoLocal}" download style="color: #00f0ff; margin-top: 10px; display: inline-block;">Descargar</a>
+                        </div>
+                    `;
+                });
+                
+                // Cuando el video empieza a reproducir
+                videoElement.addEventListener('play', () => {
+                    console.log('Reproduciendo:', project.nombre);
                 });
             }
             
+            // Evento click en tarjeta (abrir modal)
             card.addEventListener('click', (e) => {
                 if (e.target.tagName === 'VIDEO' || e.target.closest('video')) {
                     return;
                 }
                 
+                console.log('Abriendo modal:', project.nombre);
+                
                 modalTitle.textContent = project.nombre;
                 modalDesc.textContent = project.descripcion;
                 modalTech.innerHTML = project.tecnologias.map(t => `<span class="tag">${t}</span>`).join('');
                 
-                // Limpiar clases anteriores del modal
                 modalContent.classList.remove('modal-horizontal', 'modal-vertical');
                 
                 if (project.videoLocal) {
                     const modalOrientation = project.orientation === 'vertical' ? 'vertical' : 'horizontal';
-                    
-                    // Agregar clase al modal según orientación
                     modalContent.classList.add(`modal-${modalOrientation}`);
                     
                     modalMedia.innerHTML = `
@@ -105,8 +154,8 @@ document.addEventListener('DOMContentLoaded', async () => {
                                 playsinline
                                 webkit-playsinline
                                 x5-video-player-type="h5"
-                                style="background: transparent; width: 100%; height: 100%;">
-                                <source src="${project.videoLocal}" type="video/mp4; codecs=&quot;avc1.42E01E, mp4a.40.2&quot;">
+                                style="background: #000; width: 100%; height: 100%;">
+                                <source src="${project.videoLocal}" type="video/mp4">
                             </video>
                         </div>`;
                 } else {
@@ -119,13 +168,19 @@ document.addEventListener('DOMContentLoaded', async () => {
             });
 
             grid.appendChild(card);
+            console.log('Tarjeta agregada:', project.nombre);
         });
 
+        console.log('Total de tarjetas generadas:', projects.length);
+
+        // Filtros
         const filterBtns = document.querySelectorAll('.filter-btn');
         const items = document.querySelectorAll('.filter-item');
 
         filterBtns.forEach(btn => {
             btn.addEventListener('click', () => {
+                console.log('Filtro clickeado:', btn.getAttribute('data-filter'));
+                
                 filterBtns.forEach(b => b.classList.remove('active'));
                 btn.classList.add('active');
 
@@ -144,6 +199,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             });
         });
 
+        // Cerrar modal
         const closeModal = () => {
             modal.style.display = 'none';
             modalMedia.innerHTML = '';
@@ -164,6 +220,16 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
 
     } catch (error) {
-        console.error('Error cargando proyectos:', error);
+        console.error('Error general:', error);
+        const grid = document.getElementById('projects-grid');
+        if (grid) {
+            grid.innerHTML = `
+                <div style="color: white; text-align: center; padding: 40px;">
+                    <p style="font-size: 2rem; margin-bottom: 20px;">⚠️</p>
+                    <p>Error al cargar proyectos</p>
+                    <p style="font-size: 0.8rem; margin-top: 10px; color: #a0a0b0;">${error.message}</p>
+                </div>
+            `;
+        }
     }
 });
