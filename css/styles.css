@@ -2,10 +2,10 @@
    VARIABLES Y CONFIGURACIÓN GLOBAL
    ========================================= */
 :root {
-    --bg-dark: #050508;          /* Negro profundo casi azulado */
-    --bg-card: #121420;          /* Fondo de tarjetas */
-    --primary-cyan: #00f0ff;     /* Cian neón del logo */
-    --secondary-purple: #7000ff; /* Morado neón del logo */
+    --bg-dark: #050508;
+    --bg-card: #121420;
+    --primary-cyan: #00f0ff;
+    --secondary-purple: #7000ff;
     --text-main: #ffffff;
     --text-muted: #a0a0b0;
     --gradient-brand: linear-gradient(135deg, var(--primary-cyan), var(--secondary-purple));
@@ -14,10 +14,9 @@
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
-/* Smooth scroll optimizado */
 html {
     scroll-behavior: smooth;
-    scroll-padding-top: 100px; /* Para que el header no tape el contenido */
+    scroll-padding-top: 100px;
 }
 
 body {
@@ -68,7 +67,7 @@ nav a {
     text-decoration: none;
     margin-left: 25px;
     font-size: 0.9rem;
-    transition: all 0.2s ease; /* Más rápido para mejor UX */
+    transition: all 0.2s ease;
     cursor: pointer;
 }
 
@@ -82,13 +81,13 @@ nav a:hover {
    ========================================= */
 .hero {
     position: relative;
-    min-height: 100vh; /* Cambiado a min-height para mejor scroll */
+    min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
     overflow: hidden;
-    padding-top: 80px; /* Espacio para el header */
+    padding-top: 80px;
     padding-bottom: 50px;
 }
 
@@ -104,7 +103,7 @@ nav a:hover {
 .hero-video-container video {
     width: 100%;
     height: 100%;
-    object-fit: cover; /* Cubre toda el área sin bordes negros */
+    object-fit: cover;
 }
 
 .hero-overlay {
@@ -182,7 +181,7 @@ nav a:hover {
     border-radius: 30px;
     cursor: pointer;
     font-size: 0.9rem;
-    transition: all 0.2s ease; /* Más rápido */
+    transition: all 0.2s ease;
 }
 
 .filter-btn:hover {
@@ -224,7 +223,7 @@ nav a:hover {
 }
 
 .project-card.tall-card {
-    grid-row: span 2; /* Ocupa más espacio en el grid para videos verticales */
+    grid-row: span 2;
 }
 
 .card-image {
@@ -250,7 +249,7 @@ nav a:hover {
 }
 
 /* =========================================
-   CARD MEDIA - VIDEOS OPTIMIZADOS SIN BORDES NEGROS
+   CARD MEDIA - VIDEOS OPTIMIZADOS
    ========================================= */
 .card-media {
     width: 100%;
@@ -259,12 +258,8 @@ nav a:hover {
     border-top-right-radius: 16px;
     background: #000;
     position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
 }
 
-/* Video wrapper - Contenedor adaptable */
 .video-wrapper {
     position: relative;
     width: 100%;
@@ -274,7 +269,6 @@ nav a:hover {
     justify-content: center;
 }
 
-/* Video horizontal (16:9) */
 .video-wrapper.horizontal {
     aspect-ratio: 16/9;
 }
@@ -282,24 +276,20 @@ nav a:hover {
 .video-wrapper.horizontal video {
     width: 100%;
     height: 100%;
-    object-fit: cover; /* Cubre todo el espacio sin bordes negros */
+    object-fit: cover;
 }
 
-/* Video vertical (9:16) */
 .video-wrapper.vertical {
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
     aspect-ratio: 9/16;
-    max-height: 500px; /* Límite máximo de altura */
 }
 
 .video-wrapper.vertical video {
     width: 100%;
     height: 100%;
-    object-fit: cover; /* Cubre todo el espacio vertical sin bordes negros */
-}
-
-/* Videos en tarjetas */
-.card-media video {
-    display: block;
+    object-fit: contain; /* MUESTRA TODO EL VIDEO SIN RECORTAR */
     background: #000;
 }
 
@@ -424,7 +414,7 @@ nav a:hover {
 #modal-media video { 
     width: 100%; 
     max-height: 60vh;
-    object-fit: contain; /* Muestra todo el video sin recortar */
+    object-fit: contain;
     background: #000;
 }
 
@@ -438,24 +428,28 @@ nav a:hover {
     nav a { margin: 0 10px; }
     .logo-img { height: 70px; }
     .brand-name { font-size: 1.5rem; }
-    .hero { padding-top: 120px; } /* Más espacio en móvil */
+    .hero { padding-top: 120px; }
     
-    /* Videos en móviles */
     .video-wrapper.horizontal {
         aspect-ratio: 16/9;
     }
     
     .video-wrapper.vertical {
+        max-width: 100%;
         aspect-ratio: 9/16;
-        max-height: 400px;
+        max-height: 600px;
+    }
+    
+    .video-wrapper.vertical video {
+        object-fit: contain;
     }
     
     .project-card.tall-card {
-        grid-row: span 1; /* En móvil, una sola fila */
+        grid-row: span 1;
     }
     
     .grid-container {
-        grid-template-columns: 1fr; /* Una columna en móvil */
+        grid-template-columns: 1fr;
     }
     
     .modal-content {
@@ -479,13 +473,13 @@ nav a:hover {
         margin-bottom: 10px;
     }
     
-    /* Ajuste específico para videos en móviles pequeños */
     .video-wrapper.horizontal {
         aspect-ratio: 16/9;
     }
     
     .video-wrapper.vertical {
+        max-width: 100%;
         aspect-ratio: 9/16;
-        max-height: 350px;
+        max-height: 500px;
     }
 }
