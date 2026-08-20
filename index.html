@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AutoTics | Inova. Conecta. Simplifica. Avanza.</title>
+    
+    <!-- Estilos Principales -->
+    <link rel="stylesheet" href="css/styles.css">
+    
+    <!-- Librería de Animaciones AOS -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <!-- Favicon y Metadatos -->
+    <link rel="icon" type="image/png" href="favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+    <link rel="shortcut icon" href="favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-title" content="AutoTics" />
+    <link rel="manifest" href="site.webmanifest" />
+</head>
+<body>
+
+    <!-- HEADER / NAVEGACIÓN -->
+    <header class="navbar">
+        <div class="logo-container">
+            <img src="assets/img/logo_autotics.jpg" alt="AutoTics Logo" class="logo-img">
+            <span class="brand-name">AutoTics</span>
+        </div>
+        <nav>
+            <a href="#proyectos">Proyectos</a>
+            <a href="#servicios">Servicios</a>
+            <a href="#contacto">Contacto</a>
+        </nav>
+    </header>
+
+    <main>
+        <!-- SECCIÓN HERO CON VIDEO DE FONDO -->
+        <section class="hero">
+            <div class="hero-video-container">
+                <video autoplay muted loop playsinline poster="assets/img/logo_autotics.png">
+                    <source src="assets/videos/hero-bg.mp4" type="video/mp4">
+                    Tu navegador no soporta videos de fondo.
+                </video>
+                <div class="hero-overlay"></div>
+            </div>
+
+            <div class="hero-content" data-aos="fade-up">
+                <h1>Inova. Conecta. Simplifica. Avanza.</h1>
+                <p data-aos="fade-up" data-aos-delay="200">Automatización y soluciones tecnológicas para el futuro.</p>
+            </div>
+        </section>
+
+        <!-- SECCIÓN DE PROYECTOS CON FILTROS -->
+        <section id="proyectos" class="projects-section">
+            <h2 data-aos="fade-right">Nuestros Proyectos</h2>
+            
+            <div class="filter-menu" data-aos="fade-down">
+                <button class="filter-btn active" data-filter="software" data-aos="fade-up" data-aos-delay="100">Software</button>
+                <button class="filter-btn" data-filter="web" data-aos="fade-up" data-aos-delay="200">Desarrollo Web</button>
+                <button class="filter-btn" data-filter="tutoriales" data-aos="fade-up" data-aos-delay="300">Videos Tutoriales</button>
+                <button class="filter-btn" data-filter="redes" data-aos="fade-up" data-aos-delay="400">Redes & TIC</button>
+                <button class="filter-btn" data-filter="automatizacion" data-aos="fade-up" data-aos-delay="500">Automatización</button>
+            </div>
+
+            <div id="projects-grid" class="grid-container">
+                <!-- Las tarjetas se generan aquí automáticamente -->
+            </div>
+        </section>
+
+        <!-- SECCIÓN DE SERVICIOS -->
+        <section id="servicios" class="services-section">
+            <h2 data-aos="fade-up">Lo que hacemos</h2>
+            <div class="services-grid">
+                <div class="service-card" data-aos="flip-left" data-aos-delay="100">
+                    <div class="icon">⚙️</div>
+                    <h3>Automatización</h3>
+                    <p>Scripts y procesos automatizados en Python, Excel VBA y herramientas de flujo de trabajo.</p>
+                </div>
+                <div class="service-card" data-aos="flip-left" data-aos-delay="200">
+                    <div class="icon">🖥️</div>
+                    <h3>Sistemas</h3>
+                    <p>Desarrollo de software a medida, dashboards y aplicaciones web modernas.</p>
+                </div>
+                <div class="service-card" data-aos="flip-left" data-aos-delay="300">
+                    <div class="icon">☁️</div>
+                    <h3>Integración</h3>
+                    <p>Conectamos plataformas, APIs y servicios para un flujo de datos unificado.</p>
+                </div>
+                <div class="service-card" data-aos="flip-left" data-aos-delay="400">
+                    <div class="icon">📊</div>
+                    <h3>Análisis de Datos</h3>
+                    <p>Transformamos datos brutos en información estratégica para la toma de decisiones.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN DE CONTACTO -->
+        <section id="contacto" class="contact-section" data-aos="zoom-in-up">
+            <h2>Contáctanos</h2>
+            <p>¿Tienes un proyecto en mente? Escríbenos.</p>
+            
+            <form action="https://formspree.io/f/xnqevjdr" method="POST" class="contact-form">
+                <input type="text" name="nombre" placeholder="Tu Nombre" required data-aos="fade-right" data-aos-delay="100">
+                <input type="email" name="email" placeholder="Tu Correo" required data-aos="fade-right" data-aos-delay="200">
+                <textarea name="mensaje" rows="5" placeholder="¿En qué podemos ayudarte?" required data-aos="fade-right" data-aos-delay="300"></textarea>
+                <button type="submit" class="cta-btn" data-aos="zoom-in" data-aos-delay="400">Enviar Mensaje</button>
+            </form>
+        </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <p>&copy; 2026 AutoTics. Inova. Conecta. Simplifica. Avanza.</p>
+    </footer>
+
+    <!-- VENTANA MODAL PARA DETALLES DE PROYECTO -->
+    <div id="project-modal" class="modal-overlay">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div id="modal-media"></div>
+            <h2 id="modal-title"></h2>
+            <p id="modal-desc"></p>
+            <div id="modal-tech" class="tech-stack"></div>
+            <a id="modal-link" href="#" target="_blank" class="cta-btn" style="margin-top:20px; display:inline-block;">Ver Proyecto Completo</a>
+        </div>
+    </div>
+
+    <!-- SCRIPTS -->
+    <script src="js/main.js"></script>
+    
+    <!-- Inicialización de AOS (Animaciones) - OPTIMIZADO -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+      AOS.init({
+        duration: 600,        // Más rápido (600ms en vez de 800ms)
+        once: true,           // Solo una vez
+        offset: 50,          // Se activa antes (50px en vez de 100px)
+        easing: 'ease-out',   // Transición suave
+        disable: function() { // Desactivar en móviles lentos
+            var maxWidth = 768;
+            return window.innerWidth < maxWidth;
+        }
+      });
+    </script>
+</body>
+</html>

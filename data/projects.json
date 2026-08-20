@@ -1,0 +1,87 @@
+[
+    {
+        "id": 1,
+        "nombre": "Tipos de Wildcard",
+        "descripcion": "Tutorial completo sobre máscaras wildcard y conversiones binarias para redes Cisco.",
+        "tecnologias": ["Redes", "Cisco", "Direccionamiento", "Conectividad"],
+        "imagen": "assets/img/wildcard.jpg",
+        "videoLocal": "assets/videos/Wildcard.mp4",
+        "categoria": "redes"
+    },
+    {
+        "id": 2,
+        "nombre": "Conversiones de Red",
+        "descripcion": "Aprende a realizar conversiones binarias, decimales y de subnetting paso a paso.",
+        "tecnologias": ["Redes", "Binario", "Subnetting"],
+        "imagen": "assets/img/conversiones.jpg",
+        "videoLocal": "assets/videos/conversiones.mp4",
+        "categoria": "redes"
+    },
+    {
+        "id": 3,
+        "nombre": "Ajuste de Tablas",
+        "descripcion": "Tutorial sobre cómo ajustar y formatear tablas dinámicas en Excel.",
+        "tecnologias": ["Excel", "Tablas Dinámicas", "Tutorial"],
+        "imagen": "assets/img/ajuste_tabla.jpg",
+        "videoLocal": "assets/videos/ajuste de tabla.mp4",
+        "categoria": "tutoriales"
+    },
+    {
+        "id": 4,
+        "nombre": "Suma en Excel",
+        "descripcion": "Dominio de fórmulas de suma y funciones básicas en Excel.",
+        "tecnologias": ["Excel", "Fórmulas", "Tutorial"],
+        "imagen": "assets/img/suma.jpg",
+        "videoLocal": "assets/videos/suma.mp4",
+        "categoria": "tutoriales"
+    },
+    {
+        "id": 5,
+        "nombre": "Reporte de Productos",
+        "descripcion": "Generación automática de reportes de inventario y productos.",
+        "tecnologias": ["Excel", "Reportes", "Automatización"],
+        "imagen": "assets/img/reporte.jpg",
+        "videoLocal": "assets/videos/reporte de productos.mp4",
+        "categoria": "tutoriales"
+    },
+    {
+        "id": 6,
+        "nombre": "Automatizador Excel Pro",
+        "descripcion": "Script Python que automatiza reportes financieros mensuales en Excel.",
+        "tecnologias": ["Python", "Pandas", "Excel VBA", "Automatización"],
+        "imagen": "assets/img/proyecto_excel.jpg",
+        "categoria": "automatizacion"
+    },
+    {
+        "id": 7,
+        "nombre": "Dashboard TIC",
+        "descripcion": "Panel de control web para métricas de infraestructura tecnológica.",
+        "tecnologias": ["React", "Node.js", "MongoDB", "Web"],
+        "imagen": "assets/img/dashboard.jpg",
+        "categoria": "web"
+    },
+    {
+        "id": 8,
+        "nombre": "Sistema de Inventario",
+        "descripcion": "Software de escritorio para gestión de inventario y stock en tiempo real.",
+        "tecnologias": ["Python", "Tkinter", "SQLite", "Software"],
+        "imagen": "assets/img/inventario.jpg",
+        "categoria": "software"
+    },
+    {
+        "id": 9,
+        "nombre": "Bot de Telegram",
+        "descripcion": "Automatización de respuestas y notificaciones mediante bot de Telegram.",
+        "tecnologias": ["Python", "API Telegram", "Automatización", "Bot"],
+        "imagen": "assets/img/bot_telegram.jpg",
+        "categoria": "automatizacion"
+    },
+    {
+        "id": 10,
+        "nombre": "Web Portfolio Personal",
+        "descripcion": "Sitio web personal responsive con diseño moderno y animaciones.",
+        "tecnologias": ["HTML5", "CSS3", "JavaScript", "Web"],
+        "imagen": "assets/img/portfolio.jpg",
+        "categoria": "web"
+    }
+]
