@@ -1,36 +1,24 @@
 document.addEventListener('DOMContentLoaded', async () => {
-    // Debug visual en pantalla
-    const debugInfo = [];
-    function log(msg) {
-        console.log(msg);
-        debugInfo.push(msg);
-    }
-    
     try {
-        log('✅ DOM cargado');
-        
         const grid = document.getElementById('projects-grid');
         if (!grid) {
-            log(' ERROR: No se encontró #projects-grid');
+            console.error('No se encontró #projects-grid');
             return;
         }
-        log('✅ Grid encontrado');
 
         let projects = [];
         try {
             const response = await fetch('data/projects.json');
-            log(' Response: ' + response.status);
-            
             if (!response.ok) throw new Error(`HTTP ${response.status}`);
             projects = await response.json();
-            log('✅ Proyectos: ' + projects.length);
+            console.log('Proyectos cargados:', projects.length);
         } catch (error) {
-            log('❌ JSON Error: ' + error.message);
+            console.error('Error cargando JSON:', error);
             projects = [{
                 id: 1,
-                nombre: "Wildcard Test",
-                descripcion: "Video de prueba",
-                tecnologias: ["Redes"],
+                nombre: "Tipos de Wildcard",
+                descripcion: "Tutorial sobre máscaras wildcard",
+                tecnologias: ["Redes", "Cisco"],
                 imagen: "assets/img/logo_autotics.jpg",
                 videoLocal: "assets/videos/Wildcard.mp4",
                 categoria: "redes",
@@ -38,79 +26,162 @@ document.addEventListener('DOMContentLoaded', async () => {
             }];
         }
 
+        const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+
         projects.forEach((project, index) => {
-            log('🎬 Creando: ' + project.nombre);
-            
             let mediaHTML = '';
+            let cardClass = 'project-card';
+            const orientation = project.orientation || 'horizontal';
+
             if (project.videoLocal) {
+                let videoClass = orientation === 'vertical' ? 'vertical' : 'horizontal';
+                if (orientation === 'vertical') {
+                    cardClass += ' tall-card';
+                }
+                
                 mediaHTML = `
-                    <div style="background: #000; min-height: 300px; border: 3px solid #00f0ff; margin: 10px 0;">
-                        <video controls poster="${project.imagen}" preload="none" 
-                               playsinline webkit-playsinline
-                               style="width: 100%; height: 100%; background: #000;">
+                    <div class="video-wrapper ${videoClass}">
+                        <video 
+                            controls 
+                            poster="${project.imagen}" 
+                            preload="none"
+                            playsinline
+                            webkit-playsinline
+                            x5-video-player-type="h5"
+                            x5-video-player-fullscreen="true"
+                            style="background: #000; width: 100%; height: 100%;">
                             <source src="${project.videoLocal}" type="video/mp4">
-                            <p style="color: white; padding: 20px; text-align: center;">
-                                ❌ Video no soportado
+                            <p style="color: white; text-align: center; padding: 20px;">
+                                Tu navegador no soporta videos HTML5. 
+                                <a href="${project.videoLocal}" download style="color: #00f0ff;">Descargar video</a>
                             </p>
                         </video>
                     </div>`;
+            } else {
+                mediaHTML = `<div class="card-image" style="background-image: url('${project.imagen}')"></div>`;
             }
 
             const card = document.createElement('article');
-            card.className = 'project-card filter-item';
+            card.className = `${cardClass} filter-item`;
             card.setAttribute('data-category', project.categoria || 'all');
-            card.style.cssText = 'border: 2px solid #ff0000; margin: 10px; background: #121420;';
-            
+            card.setAttribute('data-aos', 'fade-up');
+            card.setAttribute('data-aos-delay', (index * 100).toString());
+
             card.innerHTML = `
                 ${mediaHTML}
-                <div style="color: white; padding: 15px;">
-                    <h3 style="color: #00f0ff; margin-bottom: 10px;">${project.nombre}</h3>
-                    <p style="color: #a0a0b0;">${project.descripcion}</p>
+                <div class="card-content">
+                    <h3>${project.nombre}</h3>
+                    <p>${project.descripcion}</p>
+                    <div class="tech-stack">
+                        ${project.tecnologias.map(t => `<span class="tag">${t}</span>`).join('')}
+                    </div>
                 </div>
             `;
             
+            const videoElement = card.querySelector('video');
+            if (videoElement) {
+                videoElement.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                });
+                
+                videoElement.addEventListener('error', (e) => {
+                    console.error('Error al cargar video:', project.videoLocal);
+                });
+            }
+            
+            card.addEventListener('click', (e) => {
+                if (e.target.tagName === 'VIDEO' || e.target.closest('video')) {
+                    return;
+                }
+                
+                const modal = document.getElementById('project-modal');
+                const modalContent = modal.querySelector('.modal-content');
+                const modalMedia = document.getElementById('modal-media');
+                const modalTitle = document.getElementById('modal-title');
+                const modalDesc = document.getElementById('modal-desc');
+                const modalTech = document.getElementById('modal-tech');
+                
+                modalTitle.textContent = project.nombre;
+                modalDesc.textContent = project.descripcion;
+                modalTech.innerHTML = project.tecnologias.map(t => `<span class="tag">${t}</span>`).join('');
+                
+                modalContent.classList.remove('modal-horizontal', 'modal-vertical');
+                
+                if (project.videoLocal) {
+                    const modalOrientation = project.orientation === 'vertical' ? 'vertical' : 'horizontal';
+                    modalContent.classList.add(`modal-${modalOrientation}`);
+                    
+                    modalMedia.innerHTML = `
+                        <div class="video-wrapper ${modalOrientation}">
+                            <video 
+                                controls 
+                                autoplay 
+                                poster="${project.imagen}"
+                                preload="none"
+                                playsinline
+                                webkit-playsinline
+                                style="background: #000; width: 100%; height: 100%;">
+                                <source src="${project.videoLocal}" type="video/mp4">
+                            </video>
+                        </div>`;
+                } else {
+                    modalContent.classList.add('modal-horizontal');
+                    modalMedia.innerHTML = `<img src="${project.imagen}" alt="${project.nombre}" style="width:100%; border-radius:8px;">`;
+                }
+                
+                modal.style.display = 'flex';
+                document.body.style.overflow = 'hidden'; 
+            });
+
             grid.appendChild(card);
-            log('✅ Tarjeta agregada');
         });
+
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const items = document.querySelectorAll('.filter-item');
+
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                filterBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                const filterValue = btn.getAttribute('data-filter');
+
+                items.forEach(item => {
+                    if (filterValue === 'all' || item.getAttribute('data-category') === filterValue) {
+                        item.classList.remove('hide');
+                        item.style.display = 'block';
+                    } else {
+                        item.classList.add('hide');
+                        item.style.display = 'none';
+                    }
+                });
+            });
+        });
+
+        const modal = document.getElementById('project-modal');
+        const modalMedia = document.getElementById('modal-media');
+        const modalContent = modal.querySelector('.modal-content');
+        const closeModalBtn = document.querySelector('.close-modal');
+
+        const closeModal = () => {
+            modal.style.display = 'none';
+            modalMedia.innerHTML = '';
+            modalContent.classList.remove('modal-horizontal', 'modal-vertical');
+            document.body.style.overflow = 'auto';
+        };
+
+        closeModalBtn.addEventListener('click', closeModal);
         
-        log('🎉 Total: ' + projects.length + ' tarjetas');
-        
-        // Panel de debug flotante
-        const debugDiv = document.createElement('div');
-        debugDiv.style.cssText = `
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: rgba(0, 0, 0, 0.95);
-            color: #00ff00;
-            padding: 15px;
-            font-size: 11px;
-            z-index: 9999;
-            max-height: 250px;
-            overflow-y: auto;
-            border-top: 3px solid #00ff00;
-            font-family: monospace;
-        `;
-        debugDiv.innerHTML = `
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-                <strong>🔍 DEBUG AUTOICS</strong>
-                <button onclick="this.parentElement.parentElement.remove()" 
-                        style="background: red; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 3px;">
-                    ✕ Cerrar
-                </button>
-            </div>
-            ${debugInfo.map(line => `<div style="margin: 3px 0; border-bottom: 1px solid #333; padding: 2px 0;">${line}</div>`).join('')}
-            <div style="margin-top: 10px; padding-top: 10px; border-top: 2px solid #00ff00;">
-                <strong>User Agent:</strong> ${navigator.userAgent}<br>
-                <strong>URL:</strong> ${window.location.href}<br>
-                <strong>Plataforma:</strong> ${navigator.platform}
-            </div>
-        `;
-        document.body.appendChild(debugDiv);
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) closeModal();
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && modal.style.display === 'flex') {
+                closeModal();
+            }
+        });
 
     } catch (error) {
-        log('❌ ERROR FATAL: ' + error.message);
-        alert('Error: ' + error.message);
+        console.error('Error general:', error);
     }
 });

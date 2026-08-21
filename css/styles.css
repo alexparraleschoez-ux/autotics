@@ -250,7 +250,7 @@ nav a:hover {
 }
 
 /* =========================================
-   CARD MEDIA - VIDEOS (SOLUCIÓN MÓVIL)
+   CARD MEDIA - VIDEOS (CORREGIDO PARA MÓVIL)
    ========================================= */
 .card-media {
     width: 100%;
@@ -273,7 +273,6 @@ nav a:hover {
     display: flex;
     align-items: center;
     justify-content: center;
-    display: block !important;
 }
 
 .video-wrapper.horizontal {
@@ -556,4 +555,3 @@ nav a:hover {
         display: block !important;
     }
 }
-/* FORZAR CAMBIO - 2026 */
