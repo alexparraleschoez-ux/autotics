@@ -26,21 +26,25 @@ document.addEventListener('DOMContentLoaded', async () => {
             }];
         }
 
-        const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
-
         projects.forEach((project, index) => {
             let mediaHTML = '';
-            let cardClass = 'project-card';
             const orientation = project.orientation || 'horizontal';
 
             if (project.videoLocal) {
-                let videoClass = orientation === 'vertical' ? 'vertical' : 'horizontal';
-                if (orientation === 'vertical') {
-                    cardClass += ' tall-card';
-                }
+                // ESTILOS INLINE para forzar visibilidad en móvil
+                const videoHeight = orientation === 'vertical' ? '400px' : '200px';
+                const videoWidth = orientation === 'vertical' ? '100%' : '100%';
                 
                 mediaHTML = `
-                    <div class="video-wrapper ${videoClass}">
+                    <div style="
+                        width: 100%; 
+                        min-height: ${videoHeight};
+                        background: #000;
+                        display: block;
+                        overflow: hidden;
+                        border-radius: 16px 16px 0 0;
+                        position: relative;
+                    ">
                         <video 
                             controls 
                             poster="${project.imagen}" 
@@ -49,7 +53,14 @@ document.addEventListener('DOMContentLoaded', async () => {
                             webkit-playsinline
                             x5-video-player-type="h5"
                             x5-video-player-fullscreen="true"
-                            style="background: #000; width: 100%; height: 100%;">
+                            style="
+                                width: ${videoWidth}; 
+                                height: 100%; 
+                                min-height: ${videoHeight};
+                                object-fit: ${orientation === 'vertical' ? 'contain' : 'cover'};
+                                display: block;
+                                background: #000;
+                            ">
                             <source src="${project.videoLocal}" type="video/mp4">
                             <p style="color: white; text-align: center; padding: 20px;">
                                 Tu navegador no soporta videos HTML5. 
@@ -58,22 +69,31 @@ document.addEventListener('DOMContentLoaded', async () => {
                         </video>
                     </div>`;
             } else {
-                mediaHTML = `<div class="card-image" style="background-image: url('${project.imagen}')"></div>`;
+                mediaHTML = `<div style="height: 180px; background: #1a1d2d; background-size: cover; background-position: center; background-image: url('${project.imagen}');"></div>`;
             }
 
             const card = document.createElement('article');
-            card.className = `${cardClass} filter-item`;
+            card.className = 'project-card filter-item';
             card.setAttribute('data-category', project.categoria || 'all');
-            card.setAttribute('data-aos', 'fade-up');
-            card.setAttribute('data-aos-delay', (index * 100).toString());
+            
+            // ESTILOS INLINE para forzar visibilidad
+            card.style.cssText = `
+                background: var(--bg-card, #121420);
+                border-radius: 16px;
+                overflow: hidden;
+                border: 1px solid rgba(255, 255, 255, 0.05);
+                margin-bottom: 20px;
+                display: block !important;
+                cursor: pointer;
+            `;
 
             card.innerHTML = `
                 ${mediaHTML}
-                <div class="card-content">
-                    <h3>${project.nombre}</h3>
-                    <p>${project.descripcion}</p>
-                    <div class="tech-stack">
-                        ${project.tecnologias.map(t => `<span class="tag">${t}</span>`).join('')}
+                <div style="padding: 25px;">
+                    <h3 style="margin-bottom: 10px; color: #ffffff; font-size: 1.2rem;">${project.nombre}</h3>
+                    <p style="color: #a0a0b0; font-size: 0.9rem; margin-bottom: 20px;">${project.descripcion}</p>
+                    <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+                        ${project.tecnologias.map(t => `<span style="padding: 5px 12px; background: rgba(0, 240, 255, 0.1); color: #00f0ff; border-radius: 20px; font-size: 0.75rem; font-weight: 600; border: 1px solid rgba(0, 240, 255, 0.2);">${t}</span>`).join('')}
                     </div>
                 </div>
             `;
@@ -103,16 +123,17 @@ document.addEventListener('DOMContentLoaded', async () => {
                 
                 modalTitle.textContent = project.nombre;
                 modalDesc.textContent = project.descripcion;
-                modalTech.innerHTML = project.tecnologias.map(t => `<span class="tag">${t}</span>`).join('');
+                modalTech.innerHTML = project.tecnologias.map(t => `<span style="padding: 5px 12px; background: rgba(0, 240, 255, 0.1); color: #00f0ff; border-radius: 20px; font-size: 0.75rem; font-weight: 600; border: 1px solid rgba(0, 240, 255, 0.2);">${t}</span>`).join('');
                 
                 modalContent.classList.remove('modal-horizontal', 'modal-vertical');
                 
                 if (project.videoLocal) {
                     const modalOrientation = project.orientation === 'vertical' ? 'vertical' : 'horizontal';
                     modalContent.classList.add(`modal-${modalOrientation}`);
+                    const modalHeight = modalOrientation === 'vertical' ? '70vh' : 'auto';
                     
                     modalMedia.innerHTML = `
-                        <div class="video-wrapper ${modalOrientation}">
+                        <div style="width: 100%; background: #000; display: flex; align-items: center; justify-content: center;">
                             <video 
                                 controls 
                                 autoplay 
@@ -120,13 +141,13 @@ document.addEventListener('DOMContentLoaded', async () => {
                                 preload="none"
                                 playsinline
                                 webkit-playsinline
-                                style="background: #000; width: 100%; height: 100%;">
+                                style="width: 100%; max-height: ${modalHeight}; object-fit: ${modalOrientation === 'vertical' ? 'contain' : 'cover'}; display: block; background: #000;">
                                 <source src="${project.videoLocal}" type="video/mp4">
                             </video>
                         </div>`;
                 } else {
                     modalContent.classList.add('modal-horizontal');
-                    modalMedia.innerHTML = `<img src="${project.imagen}" alt="${project.nombre}" style="width:100%; border-radius:8px;">`;
+                    modalMedia.innerHTML = `<img src="${project.imagen}" alt="${project.nombre}" style="width:100%; border-radius:8px; display: block;">`;
                 }
                 
                 modal.style.display = 'flex';
